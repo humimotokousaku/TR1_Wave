@@ -45,6 +45,8 @@ public:  //メンバ変数
 	float T_;						// 周期
 	float velX_;					// 波が進む速さ[m/s]	
 	//float λ_;					    // 波長(今回は使わない)
-	//float hz_;						// 振動数	
+	//float hz_;						// 振動数
+
+	float *inputFloat[3] = { &T_,&maxAmplitude_,&velX_ };
 };
 

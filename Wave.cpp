@@ -1,5 +1,6 @@
 ﻿#include "Wave.h"
 #include "Novice.h"
+#include "ImGuiManager.h"
 
 Wave::Wave() {
 
@@ -44,11 +45,24 @@ void Wave::Update(const char* keys, const char* preKeys) {
 
 	// 波の動き
 	for (int i = 0; i < kWavePoint; i++) {
-		amplitude_[i] = sinf(2 * static_cast<float>(M_PI) / T_ * (time_ * 3 - (pos_[i].x / velX_)));
-		pos_[i].y = kFirstWaterLevel + maxAmplitude_ * amplitude_[i];
+		amplitude_[i] = maxAmplitude_ * sinf(2 * static_cast<float>(M_PI) / T_ * (time_ * 3 - (pos_[i].x / velX_)));
+		pos_[i].y = kFirstWaterLevel + amplitude_[i];
 	}
 	// 時間経過
 	time_++;
+
+	// time_がT_以上になったら初期化
+	if (time_ >= T_) {
+		time_ = 0;
+	}
+
+	// 数値の調整と表示
+	ImGui::Begin("sinWave");
+	ImGui::Text("time(frame):%f", time_);
+	ImGui::SliderFloat("T", inputFloat[0], 0.0f, 1000.0f);
+	ImGui::SliderFloat("maxAmplitude", inputFloat[1], 0.0f, 640.0f);
+	ImGui::SliderFloat("velocityX", inputFloat[2], 0.0f, 20.0f);
+	ImGui::End();
 }
 
 void Wave::Draw(int texture, unsigned int color) {

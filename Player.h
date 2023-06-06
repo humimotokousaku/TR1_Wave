@@ -28,5 +28,10 @@ private: // メンバ変数
 	float radius_;
 	float maxAmplitude_;
 	float amplitude_;
+	// 描画するか
+	bool isDraw_;
+
+	// ImGuiのSlider用
+	float* inputFloat = &pos_.x;
 };
 
